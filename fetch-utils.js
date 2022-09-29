@@ -34,6 +34,14 @@ export async function createItem(item) {
 
 }
 
+export function renderItem(item) {
+    const li = document.createElement('li');
+    const p = document.createElement('p');
+    p.textContent = item.quantity + ' ' + item.item;
+    li.append(p);
+    return li;
+}
+
 export async function getListItems() {
     return await client.from('shopping_list').select();
 
@@ -42,5 +50,4 @@ export async function getListItems() {
 export async function gotIt(someId) {
     return await client.from('shopping_list').update({ bought: true }).match({ id: someId });
 
-    return checkError(response);
 }

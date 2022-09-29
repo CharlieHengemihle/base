@@ -1,7 +1,7 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import './auth/user.js';
-import { createItem, getListItems, gotIt } from './fetch-utils.js';
+import { createItem, getListItems, gotIt, renderItem } from './fetch-utils.js';
 
 /* Get DOM Elements */
 
@@ -17,19 +17,19 @@ let items = [];
 let error = null;
 
 /* Events */
-// window.addEventListener('load', async () => {
-//     const response = await getListItems();
-//     error = response.error;
-//     items = response.data;
+window.addEventListener('load', async () => {
+    const response = await getListItems();
+    error = response.error;
+    items = response.data;
 
-//     if (error) {
-//         displayError();
-//     }
+    if (error) {
+        displayError();
+    }
 
-//     if (items) {
-//         displayItems();
-//     }
-// });
+    if (items) {
+        displayItems();
+    }
+});
 
 
 form.addEventListener('submit', async (e) => {
@@ -64,12 +64,10 @@ function displayError() {
 }
 
 async function displayItems() {
-    const items = await getListItems();
     listEl.textContent = '';
     for (const item of items) {
-        const itemEl = document.createElement('p');
-        itemEl.classList.add('list');
-        listEl.textContent = `${item.quantity} ${item.item}`;
+        const itemEl = renderItem(item);
+        listEl.append(itemEl);
         
         // if (item.got) {
         //         itemEl.classList.add('got')
@@ -81,32 +79,4 @@ async function displayItems() {
         //                 });  
         //             }
         //         }
-                items.append(item);
-}
-
-// async function displayItems() {
-//     // - call supabase to fetch all shopping items for this user
-//     const list = await getListItems();
-
-//     // - loop through those items, create DOM elements, and append -- render items differently if "bought: true"
-//     listEl.textContent = '';
-//     for (let item of list) {
-//         const listItemEl = document.createElement('p');
-
-//         listItemEl.classList.add('list-item');
-
-//         listItemEl.textContent = `${item.quantity} ${item.item}`;
-
-//         // if (item.bought) {
-//         //     listItemEl.classList.add('bought');
-//         // } else {
-//         //     listItemEl.classList.add('not-bought');
-//         //     listItemEl.addEventListener('click', async () => {
-//         //         // change the boolean to true
-//         //         await buyListItem(item.id);
-//         //         displayItems();
-//         //     });
-//         // }
-//         listEl.append(listItemEl);
-//     }
-// }
+}}
