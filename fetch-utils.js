@@ -36,9 +36,7 @@ export async function createItem(item) {
 
 export function renderItem(item) {
     const li = document.createElement('li');
-    const p = document.createElement('p');
-    p.textContent = item.quantity + ' ' + item.item;
-    li.append(p);
+    li.textContent = item.quantity + ' ' + item.item;
     return li;
 }
 
@@ -48,6 +46,7 @@ export async function getListItems() {
 }
 
 export async function gotIt(someId) {
-    return await client.from('shopping_list').update({ bought: true }).match({ id: someId });
-
+    const updatedItem = await client.from('shopping_list').update({ bought: true }).match({ id: someId });
+    // updatedItem.classList.add('bought');
+    return updatedItem;
 }

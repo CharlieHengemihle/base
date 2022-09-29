@@ -8,7 +8,6 @@ import { createItem, getListItems, gotIt, renderItem } from './fetch-utils.js';
 const form = document.querySelector('.new-form');
 // const delete = document.querySelector('.delete');
 const listEl = document.querySelector('.list');
-const logout = document.getElementById('logout')
 const errorDisplay = document.getElementById('error-display');
 
 /* State */
@@ -67,16 +66,26 @@ async function displayItems() {
     listEl.textContent = '';
     for (const item of items) {
         const itemEl = renderItem(item);
-        listEl.append(itemEl);
-        
-        // if (item.got) {
-        //         itemEl.classList.add('got')
-        //     } else {
-        //             itemEl.classList.add('not-got');
-        //             itemEl.addEventListener('click', async () => {
-        //                     await getListItems(item.id);
-        //                     displayItems();
-        //                 });  
-        //             }
-        //         }
-}}
+        if (item.bought = true) {
+            itemEl.classList.add('bought');}
+            
+            listEl.append(itemEl);
+        itemEl.addEventListener('click', async () => {
+            const response = await gotIt(item.id);
+            error = response.error;
+            const updatedItem = response.data;
+            if (error) {
+                displayError();
+            } else {
+                const index = items.indexOf(item);
+                items[index] = updatedItem;
+                displayItems();
+            }
+
+            // if (item.bought) {
+            //     itemEl.classList.add('bought');
+            // } else {
+            //     itemEl.classList.add('not-bought');};
+        });
+        }
+}

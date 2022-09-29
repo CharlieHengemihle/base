@@ -20,6 +20,10 @@ body {
     grid-template-rows: auto 1fr;
 }
 
+.bought {
+    text-decoration: line-through;
+}
+
 .page-header {
     position: sticky;
     top: 0;
