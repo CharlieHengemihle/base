@@ -1,14 +1,15 @@
 /* Imports */
 // this will check if we have a user and set signout link if it exists
 import './auth/user.js';
-import { createItem, getListItems, gotIt, renderItem, removeItems } from './fetch-utils.js';
+import { createItem, getListItems, gotIt, renderItem, removeItems, deleteCompleted } from './fetch-utils.js';
 
 /* Get DOM Elements */
 
 const form = document.querySelector('.new-form');
-const deleteItems = document.querySelector('.delete');
+const deleteItem = document.getElementById('delete');
 const listEl = document.querySelector('.list');
 const errorDisplay = document.getElementById('error-display');
+const deleteComplete = document.getElementById('delete-complete');
 
 /* State */
 
@@ -43,6 +44,7 @@ form.addEventListener('submit', async (e) => {
     const response = await createItem(newItem);
     error = response.error;
     const item = response.data;
+    renderItem(newItem)
 
     if(error) {
         displayError();
@@ -94,7 +96,7 @@ async function displayItems() {
         }
 }
 
-deleteItems.addEventListener('click', async () => {
+deleteItem.addEventListener('click', async () => {
     const response = await removeItems();
     error = response.error;
 
@@ -106,6 +108,17 @@ deleteItems.addEventListener('click', async () => {
     }
 })
 
+deleteComplete.addEventListener('click', async () => {
+    const response = await deleteCompleted();
+    error = response.error;
+
+    if (error) {
+        displayError();
+    } else {
+        items = [];
+        displayItems();
+    }
+})
 // function renderItem(item) {
 //     const li = document.createElement('li');
 //     li.textContent = item.quantity + ' ' + item.item;

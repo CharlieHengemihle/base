@@ -56,6 +56,6 @@ export async function removeItems() {
     return await client.from('shopping_list').delete().eq('user_id', user.id);
 }
 
-// export async function deleteCompleted() {
-//     const resp = await client.from('shopping_list').delete().match({ bought: true });
-// }
+export async function deleteCompleted() {
+    await client.from('shopping_list').delete().match( bought, true );
+}
