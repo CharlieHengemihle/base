@@ -29,12 +29,18 @@ export async function signOutUser() {
 /* Data functions */
 
 
-export async function createItem(item, quantity) {
-    return await client.from('shopping_list').insert([{ item, quantity }]);
+export async function createItem(item) {
+    return await client.from('shopping_list').insert(item);
 
 }
 
 export async function getListItems() {
-    return await client.from('shopping_list').select('*').order('created_at');
+    return await client.from('shopping_list').select();
 
+}
+
+export async function gotIt(someId) {
+    return await client.from('shopping_list').update({ bought: true }).match({ id: someId });
+
+    return checkError(response);
 }
