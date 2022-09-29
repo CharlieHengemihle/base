@@ -37,6 +37,7 @@ export async function createItem(item) {
 export function renderItem(item) {
     const li = document.createElement('li');
     li.textContent = item.quantity + ' ' + item.item;
+    li.classList.add('bought');
     return li;
 }
 
@@ -47,6 +48,14 @@ export async function getListItems() {
 
 export async function gotIt(someId) {
     const updatedItem = await client.from('shopping_list').update({ bought: true }).match({ id: someId });
-    // updatedItem.classList.add('bought');
     return updatedItem;
 }
+
+export async function removeItems() {
+    const user = getUser();
+    return await client.from('shopping_list').delete().eq('user_id', user.id);
+}
+
+// export async function deleteCompleted() {
+//     const resp = await client.from('shopping_list').delete().match({ bought: true });
+// }
