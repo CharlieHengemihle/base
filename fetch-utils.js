@@ -30,5 +30,11 @@ export async function signOutUser() {
 
 
 export async function createItem(item, quantity) {
-    const response = await client.from('shopping').insert([{ item, quantity }]);
+    return await client.from('shopping_list').insert([{ item, quantity }]);
+
+}
+
+export async function getListItems() {
+    return await client.from('shopping_list').select('*').order('created_at');
+
 }
