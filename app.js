@@ -43,7 +43,7 @@ async function populateItems() {
     if (items) {
         displayItems();
     }
-};
+}
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
