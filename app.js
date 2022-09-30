@@ -31,6 +31,19 @@ window.addEventListener('load', async () => {
     }
 });
 
+async function populateItems() {
+    const response = await getListItems();
+    error = response.error;
+    items = response.data;
+
+    if (error) {
+        displayError();
+    }
+
+    if (items) {
+        displayItems();
+    }
+};
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -44,14 +57,15 @@ form.addEventListener('submit', async (e) => {
     const response = await createItem(newItem);
     error = response.error;
     const item = response.data;
-    renderItem(newItem)
+    // renderItem(item);
 
-    if(error) {
+    if (error) {
         displayError();
     } else {
         items.push(item);
         displayItems();
         form.reset();
+        populateItems();
     }
 });
 
@@ -73,7 +87,7 @@ async function displayItems() {
         } else {
             itemEl.classList.remove('bought');
         }
-            
+        
         listEl.append(itemEl);
         itemEl.addEventListener('click', async () => {
             const response = await gotIt(item.id);
@@ -87,13 +101,14 @@ async function displayItems() {
                 items[index] = updatedItem;
                 displayItems();
             }
+            populateItems();
             
             // if (item.bought) {
                 //     itemEl.classList.add('bought');
                 // } else {
                     //     itemEl.classList.add('not-bought');};
-                });
-        }
+        });
+    }
 }
 
 deleteItem.addEventListener('click', async () => {
@@ -103,10 +118,9 @@ deleteItem.addEventListener('click', async () => {
     if (error) {
         displayError();
     } else {
-        items = [];
-        displayItems();
+        populateItems();
     }
-})
+});
 
 deleteComplete.addEventListener('click', async () => {
     const response = await deleteCompleted();
@@ -115,17 +129,8 @@ deleteComplete.addEventListener('click', async () => {
     if (error) {
         displayError();
     } else {
-        items = [];
-        displayItems();
+        populateItems();
     }
-})
-// function renderItem(item) {
-//     const li = document.createElement('li');
-//     li.textContent = item.quantity + ' ' + item.item;
-//     if (item.bought) {
-//     li.classList.add('bought');
-//     }
-//     return li;
-// }
+});
 
 displayItems();

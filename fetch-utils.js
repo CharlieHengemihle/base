@@ -37,7 +37,6 @@ export async function createItem(item) {
 export function renderItem(item) {
     const li = document.createElement('li');
     li.textContent = item.quantity + ' ' + item.item;
-    li.classList.add('bought');
     return li;
 }
 
@@ -57,5 +56,5 @@ export async function removeItems() {
 }
 
 export async function deleteCompleted() {
-    await client.from('shopping_list').delete().match( bought, true );
+    return await client.from('shopping_list').delete().match({ bought: true });
 }
